@@ -22,13 +22,20 @@
 	//3.控制滑块跟随鼠标移动(监听elementX/Y变化,一旦变化,重新设置left/top)
 	const left = ref(0);
 	const top = ref(0);
-	watch([elementX, elementY], () => {
+	//控制大图的显示
+	const positionX = ref(0);
+	const positionY = ref(0);
+	watch([elementX, elementY, isOutside], () => {
+		if (isOutside.value) return;
+        //横向
 		if (elementX.value > 100 && elementX < 300) {
 			left.value = elementX.value - 100;
 		}
+        //纵向
 		if (elementY.value > 100 && elementY < 300) {
 			top.value = elementY.value - 100;
 		}
+        //边界处理
 		if (elementX.value > 300) {
 			left.value = 200;
 		} else if (elementX.value < 100) {
@@ -39,6 +46,8 @@
 		} else if (elementY.value < 100) {
 			top.value = 0;
 		}
+		positionX.value = -left.value * 2;
+		positionY.value = -top.value * 2;
 	});
 </script>
 
@@ -48,7 +57,11 @@
 		<div class="middle" ref="target">
 			<img :src="imageList[activeIndex]" alt="" />
 			<!-- 蒙层小滑块 -->
-			<div class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+			<div
+				v-show="!isOutside"
+				class="layer"
+				:style="{ left: `${left}px`, top: `${top}px` }"
+			></div>
 		</div>
 		<!-- 小图列表 -->
 		<ul class="small">
@@ -63,15 +76,15 @@
 		</ul>
 		<!-- 放大镜大图 -->
 		<div
+			v-show="!isOutside"
 			class="large"
 			:style="[
 				{
 					backgroundImage: `url(${imageList[activeIndex]})`,
-					backgroundPositionX: `0px`,
-					backgroundPositionY: `0px`,
+					backgroundPositionX: `${positionX}px`,
+					backgroundPositionY: `${positionY}px`,
 				},
 			]"
-			v-show="false"
 		></div>
 	</div>
 </template>
