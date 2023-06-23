@@ -3,6 +3,7 @@
 	import { useRoute } from "vue-router";
 	import { getCategoryAPI } from "@/apis/layout";
 	import { getBannerAPI } from "@/apis/home";
+    import GoodsItem from "../Home/components/GoodsItem.vue";
 	const route = useRoute();
 	//获取数据
 	const categoryData = ref({});
@@ -47,6 +48,26 @@
 						<img :src="item.imgUrl" alt="" />
 					</el-carousel-item>
 				</el-carousel>
+			</div>
+			<!-- 分类数据 -->
+			<div class="sub-list">
+				<h3>全部分类</h3>
+				<ul>
+					<li v-for="i in categoryData.children" :key="i.id">
+						<RouterLink to="/">
+							<img :src="i.picture" />
+							<p>{{ i.name }}</p>
+						</RouterLink>
+					</li>
+				</ul>
+			</div>
+			<div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+				<div class="head">
+					<h3>- {{ item.name }}-</h3>
+				</div>
+				<div class="body">
+					<GoodsItem v-for="goods in item.goods" :goods="goods" :key="goods.id" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -132,7 +153,7 @@
 	.home-banner {
 		width: 1240px;
 		height: 500px;
-        margin: 0 auto;
+		margin: 0 auto;
 
 		img {
 			width: 100%;
