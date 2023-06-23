@@ -29,6 +29,17 @@
 		reqData.value.page = 1;
 		getGoodList();
 	}
+
+	//加载更多
+	let disabled = ref(false);
+	async function load() {
+		reqData.value.page++;
+		let res = await getSubCategoryAPI(reqData.value);
+		if (res.result.items.length === 0) {
+			disabled.value = true;
+		}
+		goodList.value = [...goodList.value, ...res.result.items];
+	}
 </script>
 
 <template>
@@ -49,7 +60,7 @@
 				<el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
 				<el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
 			</el-tabs>
-			<div class="body">
+			<div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
 				<!-- 商品列表-->
 				<GoodsItem v-for="goods in goodList" :goods="goods" :key="goods.id"></GoodsItem>
 			</div>
