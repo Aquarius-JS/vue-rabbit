@@ -1,7 +1,7 @@
 <script setup>
 	import { ref, onMounted } from "vue";
 	import HomePanel from "./HomePanel.vue";
-	import { getHotAPI } from "@/apis/home";
+	import { getHotAPI } from "@/apis/home"
 
 	const hotList = ref([]);
 	const getHotList = async () => {
@@ -16,9 +16,10 @@
 <template>
 	<HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
 		<ul class="goods-list">
+            
 			<li v-for="item in hotList" :key="item.id">
 				<RouterLink to="/">
-					<img :src="item.picture" alt="" />
+					<img v-img-lazy="item.picture" alt="" />
 					<p class="name">{{ item.name }}</p>
 					<p class="desc">&yen;{{ item.alt }}</p>
 				</RouterLink>
