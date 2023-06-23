@@ -12,7 +12,7 @@
 <template>
 	<div class="top-category">
 		<div class="container m-top-20">
-			<!-- 面包屑 -->
+			<!-- 面包屑导航 -->
 			<div class="bread-container">
 				<el-breadcrumb separator=">">
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -32,7 +32,7 @@
 				<h3>全部分类</h3>
 				<ul>
 					<li v-for="i in categoryData.children" :key="i.id">
-						<RouterLink to="/">
+						<RouterLink :to="`/category/sub/${i.id}`">
 							<img :src="i.picture" />
 							<p>{{ i.name }}</p>
 						</RouterLink>
