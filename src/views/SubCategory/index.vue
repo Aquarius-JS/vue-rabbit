@@ -15,16 +15,20 @@
 	//获取基础列表数据渲染
 	const goodList = ref([]);
 	const reqData = ref({
-		categoryId:route.params.id,
-		page:1,
-		pageSize:20,
-		sortFiled:'publishTime'
-	})
+		categoryId: route.params.id,
+		page: 1,
+		pageSize: 20,
+		sortFiled: "publishTime",
+	});
 	const getGoodList = async () => {
 		let res = await getSubCategoryAPI(reqData.value);
 		goodList.value = res.result.items;
 	};
 	onMounted(() => getGoodList());
+	function tabChange() {
+		reqData.value.page = 1;
+		getGoodList();
+	}
 </script>
 
 <template>
@@ -40,7 +44,7 @@
 			</el-breadcrumb>
 		</div>
 		<div class="sub-container">
-			<el-tabs>
+			<el-tabs v-model="reqData.sortFiled" @tab-change="tabChange">
 				<el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
 				<el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
 				<el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
