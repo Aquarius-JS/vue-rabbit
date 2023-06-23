@@ -1,34 +1,12 @@
 <script setup>
-	import { ref, onMounted, onUpdated } from "vue";
-	import { useRoute } from "vue-router";
-	import { getCategoryAPI } from "@/apis/layout";
-	import { getBannerAPI } from "@/apis/home";
-    import GoodsItem from "../Home/components/GoodsItem.vue";
-	const route = useRoute();
-	//获取数据
-	const categoryData = ref({});
-	const getCategory = async () => {
-		let res = await getCategoryAPI(route.params.id);
-		categoryData.value = res.result;
-	};
-	onMounted(() => {
-		getCategory();
-	});
-	onUpdated(() => {
-		getCategory();
-	});
+	import GoodsItem from "../Home/components/GoodsItem.vue";
+
+	import { useCategory } from "./composables/useCategory";
+	import { useBanner } from "./composables/useBanner";
+	//获取分类数据
+    const {categoryData} = useCategory();
 	//获取Banner
-	const bannerList = ref([]);
-	const getBanner = async () => {
-		const res = await getBannerAPI({
-			distributionSite: "2",
-		});
-		console.log(res);
-		bannerList.value = res.result;
-	};
-	onMounted(() => {
-		getBanner();
-	});
+	const { bannerList } = useBanner();
 </script>
 
 <template>
