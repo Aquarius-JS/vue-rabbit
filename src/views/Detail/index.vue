@@ -3,8 +3,6 @@
 	import { useRoute } from "vue-router";
 	import { getDetail } from "@/apis/detail";
 	import DetailHot from "./components/DetailHot.vue";
-	import ImageView from "@/components/ImageView/index.vue";
-	import XtxSku from "@/components/XtxSku/index.vue";
 	const route = useRoute();
 	const goods = ref({});
 	const getGoods = async () => {
@@ -88,7 +86,7 @@
 							<!-- sku组件 -->
 							<XtxSku :goods="goods"></XtxSku>
 							<!-- 数据组件 -->
-
+							
 							<!-- 按钮组件 -->
 							<div>
 								<el-button size="large" class="btn"> 加入购物车 </el-button>
