@@ -3,7 +3,11 @@
 	import { useUserStore } from "@/stores/user";
 	const router = useRouter();
 	const userStore = useUserStore();
-
+	const confirm = () => {
+		console.log("用户退出登录了");
+		userStore.clearUserInfo();
+		router.push('/login')
+	};
 </script>
 
 <template>
@@ -12,10 +16,13 @@
 			<ul>
 				<template v-if="userStore.userInfo.token">
 					<li>
-						<a href="javascript:;"><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a>
+						<a href="javascript:;"
+							><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a
+						>
 					</li>
 					<li>
 						<el-popconfirm
+							@confirm="confirm"
 							title="确认退出吗?"
 							confirm-button-text="确认"
 							cancel-button-text="取消"
