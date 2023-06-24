@@ -19,9 +19,14 @@
 	const showDialog = ref(false);
 
 	//切换地址
-	const activAddress = ref({});
+	const activeAddress = ref({});
 	const switchAddress = item => {
-		activAddress.value = item;
+		activeAddress.value = item;
+	};
+
+	const confirm = () => {
+		curAddress.value = activeAddress.value;
+		showDialog.value = false;
 	};
 </script>
 
@@ -124,7 +129,7 @@
 				</div>
 				<!-- 提交订单 -->
 				<div class="submit">
-					<el-button type="primary" size="large">提交订单</el-button>
+					<el-button type="primary" size="large" @click="createOrder">提交订单</el-button>
 				</div>
 			</div>
 		</div>
@@ -151,7 +156,7 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button>取消</el-button>
-				<el-button type="primary">确定</el-button>
+				<el-button type="primary" @click="confirm">确定</el-button>
 			</span>
 		</template>
 	</el-dialog>
