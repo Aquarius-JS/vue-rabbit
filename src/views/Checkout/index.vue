@@ -1,6 +1,10 @@
 <script setup>
 	import { ref, onMounted } from "vue";
-	import { getCheckInfoAPI } from "@/apis/checkout";
+	import { getCheckInfoAPI, createOrderAPI } from "@/apis/checkout";
+	import { useRouter } from "vue-router";
+	import { useCartStore } from "@/stores/cartStore";
+	const cartStore = useCartStore();
+	const router = useRouter();
 	const checkInfo = ref(); // 订单对象
 	// const defaultAddress = ref({});
 	const curAddress = ref({}); // 地址对象
@@ -23,10 +27,35 @@
 	const switchAddress = item => {
 		activeAddress.value = item;
 	};
-
 	const confirm = () => {
 		curAddress.value = activeAddress.value;
 		showDialog.value = false;
+	};
+
+	//创建订单
+	const createOrder = () => {
+		const res = createOrderAPI({
+			deliveryTimeType: 1,
+			payType: 1,
+			payChannel: 1,
+			buyerMessage: "",
+			goods: checkInfo.value.goods.map(item => {
+				return {
+					skuId: item.skuId,
+					count: item.count,
+				};
+			}),
+			addressId: curAddress.value.id,
+		});
+		const orderId = res.result.id;
+		router.push({
+			path: "/pay",
+			query: {
+				id: orderId,
+			},
+		});
+		//更新购物车
+		cartStore.updateNewList();
 	};
 </script>
 

@@ -28,14 +28,23 @@
 		console.log(count);
 	};
 	//添加购物车
-	const addCart = ()=>{
-		if(skuObj.skuId){
+	const addCart = () => {
+		if (skuObj.skuId) {
 			//规格已选择
-
-		}else{
-			ElMessage.warning('请选择规格');
+			cartStore.addCart({
+				id: goods.value.id,
+				name: goods.value.name,
+				picture: goods.value.mainPictures[0],
+				price: goods.value.price,
+				count: count.value,
+				skuId: skuObj.skuId,
+				attrsText: skuObj.specsText,
+				selected: true,
+			});
+		} else {
+			ElMessage.warning("请选择规格");
 		}
-	}
+	};
 </script>
 
 <template>
@@ -113,7 +122,9 @@
 							<el-input-number v-model="count" @change="countChange" />
 							<!-- 按钮组件 -->
 							<div>
-								<el-button size="large" class="btn" @click="addCart"> 加入购物车 </el-button>
+								<el-button size="large" class="btn" @click="addCart">
+									加入购物车
+								</el-button>
 							</div>
 						</div>
 					</div>
