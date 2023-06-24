@@ -1,5 +1,7 @@
 <script setup>
+	import { useRouter } from "vue-router";
 	import { useCartStore } from "@/stores/cartStore";
+	const router = useRouter();
 	const cartStore = useCartStore();
 	//单选回调
 	const singleCheck = (i, selected) => {
@@ -90,7 +92,9 @@
 					<span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
 				</div>
 				<div class="total">
-					<el-button size="large" type="primary">下单结算</el-button>
+					<el-button size="large" type="primary" @click="router.push('/checkout')"
+						>下单结算</el-button
+					>
 				</div>
 			</div>
 		</div>
