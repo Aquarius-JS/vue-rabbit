@@ -32,10 +32,18 @@ export const useCartStore = defineStore(
 		};
 
 		//计算属性
-		//总的数量
+		//1.总的数量
 		const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0));
-		//总价
+		//2.总价
 		const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0));
+		//3.已选择数量
+		const selectedCount = computed(() =>
+			cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count, 0)
+		);
+		//4.已选商品价钱合计
+		const selectedPrice = computed(() =>
+			cartList.value.filter(item => item.selected).reduce((a, c) => a + c.count * c.price, 0)
+		);
 		//是否全选
 		const isAll = computed(() => cartList.value.every(item => item.selected));
 		return {
