@@ -21,17 +21,32 @@ export const useCartStore = defineStore(
 			const index = cartList.value.findIndex(item => skuId === item.skuId);
 			cartList.value.splice(index, 1);
 		};
+		//单选功能
+		const singleCheck = (skuId, selected) => {
+			cartList.value.find(item => item.skuId === skuId);
+			item.selected = selected;
+		};
+		//全选功能
+		const allCheck = selected => {
+			cartList.value.forEach(item => (item.selected = selected));
+		};
+
 		//计算属性
 		//总的数量
 		const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0));
 		//总价
 		const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0));
+		//是否全选
+		const isAll = computed(() => cartList.value.every(item => item.selected));
 		return {
 			cartList,
 			allCount,
 			allPrice,
+			isAll,
 			addCart,
 			delCart,
+			singleCheck,
+			allCheck,
 		};
 	},
 	{
