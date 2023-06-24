@@ -2,8 +2,10 @@
 	import { ref } from "vue";
 	import { ElMessage } from "element-plus";
 	import "element-plus/theme-chalk/el-message.css";
-	import { loginAPI } from "@/apis/user";
 	import { useRouter } from "vue-router";
+
+	import { useUserStore } from "@/stores/user";
+	const userStore = useUserStore();
 	const router = useRouter();
 	// 表单数据对象
 	const userInfo = ref({
@@ -33,9 +35,13 @@
 		formRef.value.validate(async valid => {
 			//valid:所有表单都通过验证才为true
 			if (valid) {
+				const data = {
+					account: userInfo.value.account,
+					password: userInfo.value.password,
+				};
 				//TODO LOGIN
-				const res = await loginAPI(userInfo.value);
-				console.log(res);
+				userStore.getUserInfo(data);
+
 				//1.提示用户
 				ElMessage({ type: "success", message: "登录成功" });
 				//2.跳转首页
