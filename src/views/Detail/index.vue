@@ -3,6 +3,9 @@
 	import { useRoute } from "vue-router";
 	import { getDetail } from "@/apis/detail";
 	import DetailHot from "./components/DetailHot.vue";
+	import { ElMessage } from "element-plus";
+	import { useCartStore } from "@/stores/cartStore";
+	const cartStore = useCartStore();
 	const route = useRoute();
 	const goods = ref({});
 	const getGoods = async () => {
@@ -12,6 +15,27 @@
 	onMounted(() => {
 		getGoods();
 	});
+	//sku规格被操作时
+	const skuObj = {};
+	const skuChange = sku => {
+		console.log(sku);
+		skuObj = sku;
+	};
+
+	//count
+	const count = ref(1);
+	const countChange = count => {
+		console.log(count);
+	};
+	//添加购物车
+	const addCart = ()=>{
+		if(skuObj.skuId){
+			//规格已选择
+
+		}else{
+			ElMessage.warning('请选择规格');
+		}
+	}
 </script>
 
 <template>
@@ -84,12 +108,12 @@
 								</dl>
 							</div>
 							<!-- sku组件 -->
-							<XtxSku :goods="goods"></XtxSku>
+							<XtxSku :goods="goods" @change="skuChange"></XtxSku>
 							<!-- 数据组件 -->
-							
+							<el-input-number v-model="count" @change="countChange" />
 							<!-- 按钮组件 -->
 							<div>
-								<el-button size="large" class="btn"> 加入购物车 </el-button>
+								<el-button size="large" class="btn" @click="addCart"> 加入购物车 </el-button>
 							</div>
 						</div>
 					</div>
