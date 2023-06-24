@@ -1,5 +1,10 @@
 <script setup>
 	import { ref } from "vue";
+	import { ElMessage } from "element-plus";
+	import "element-plus/theme-chalk/el-message.css";
+	import { loginAPI } from "@/apis/user";
+	import { useRouter } from "vue-router";
+	const router = useRouter();
 	// 表单数据对象
 	const userInfo = ref({
 		account: "",
@@ -24,13 +29,20 @@
 	};
 
 	const formRef = ref(null);
-	const doLogin=()=>{
-		formRef.value.validate((valid)=>{
+	const doLogin = () => {
+		formRef.value.validate(async valid => {
 			//valid:所有表单都通过验证才为true
-			console.log(valid);
-
-		})
-	}
+			if (valid) {
+				//TODO LOGIN
+				const res = await loginAPI(userInfo.value);
+				console.log(res);
+				//1.提示用户
+				ElMessage({ type: "success", message: "登录成功" });
+				//2.跳转首页
+				router.replace({ path: "/" });
+			}
+		});
+	};
 </script>
 
 <template>
@@ -66,7 +78,9 @@
 									我已同意隐私条款和服务条款
 								</el-checkbox>
 							</el-form-item>
-							<el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
+							<el-button size="large" class="subBtn" @click="doLogin"
+								>点击登录</el-button
+							>
 						</el-form>
 					</div>
 				</div>
