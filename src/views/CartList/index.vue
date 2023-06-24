@@ -1,6 +1,10 @@
 <script setup>
 	import { useCartStore } from "@/stores/cartStore";
 	const cartStore = useCartStore();
+	//单选回调
+	const singleCheck = (i, selected) => {
+		cartStore.singleCheck(i.skuId, selected);
+	};
 </script>
 
 <template>
@@ -24,7 +28,10 @@
 					<tbody>
 						<tr v-for="i in cartStore.cartList" :key="i.id">
 							<td>
-								<el-checkbox />
+								<el-checkbox
+									:model-value="i.selected"
+									@change="selected => singleCheck(i, selected)"
+								/>
 							</td>
 							<td>
 								<div class="goods">
@@ -51,7 +58,7 @@
 										title="确认删除吗?"
 										confirm-button-text="确认"
 										cancel-button-text="取消"
-										@confirm="cartStore.delCart(i)"
+										@confirm="cartStore.delCart(i.skuId)"
 									>
 										<template #reference>
 											<a href="javascript:;">删除</a>
