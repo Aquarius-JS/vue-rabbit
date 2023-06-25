@@ -14,7 +14,7 @@
 	// 订单列表
 	const orderList = ref([]);
 	   const params = ref({
-	       orderState = 0,
+	       orderState : 0,
 	       page:1,
 	       pageSize:2
 	   })
