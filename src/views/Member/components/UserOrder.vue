@@ -1,6 +1,6 @@
 <script setup>
 	import { getUserOrder } from "@/apis/order";
-	   import {ref,onMounted} from "vue";
+	import { ref, onMounted } from "vue";
 	// tab列表
 	const tabTypes = [
 		{ name: "all", label: "全部订单" },
@@ -13,23 +13,32 @@
 	];
 	// 订单列表
 	const orderList = ref([]);
-	   const params = ref({
-	       orderState : 0,
-	       page:1,
-	       pageSize:2
-	   })
-	   const getOrderList = async()=>{
-	       let res = await getUserOrder(params.value);
-	       orderList.value = res.result.items;
-	   }
-	   onMounted(()=>getOrderList());
+	const params = ref({
+		orderState: 0,
+		page: 1,
+		pageSize: 2,
+	});
+	const getOrderList = async () => {
+		let res = await getUserOrder(params.value);
+		orderList.value = res.result.items;
+	};
+	onMounted(() => getOrderList());
+	const tabChange = (type) => {
+		params.value.orderState = type;
+		getOrderList();
+	};
 </script>
 
 <template>
 	<div class="order-container">
 		<el-tabs>
 			<!-- tab切换 -->
-			<el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
+			<el-tab-pane
+				@tab-change="tabChange"
+				v-for="item in tabTypes"
+				:key="item.name"
+				:label="item.label"
+			/>
 
 			<div class="main-container">
 				<div class="holder-container" v-if="orderList.length === 0">
