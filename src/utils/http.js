@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const httpInstance = axios.create({
 	baseURL: "http://pcapi-xiaotuxian-front-devtest.iteima.net",
+	// baseURL:'http://127.0.0.1:5173',
 	timeout: 5000,
 });
 
