@@ -16,7 +16,7 @@
 		getGoods();
 	});
 	//sku规格被操作时
-	const skuObj = {};
+	let skuObj = {};
 	const skuChange = sku => {
 		console.log(sku);
 		skuObj = sku;
